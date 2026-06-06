@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quivern — Cemetery & Memorial Park Operations Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Mono:wght@300;400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --stone: #F5F2ED;
+    --stone-dark: #E8E3DA;
+    --stone-mid: #C9C0B0;
+    --ink: #1A1714;
+    --ink-soft: #3D3730;
+    --ink-muted: #7A7068;
+    --sage: #4A6741;
+    --sage-light: #6B8F62;
+    --sage-pale: #D6E4D3;
+    --bronze: #8B6914;
+    --bronze-light: #C49A28;
+    --bronze-pale: #F2E8C4;
+    --cream: #FAF8F4;
+    --white: #FFFFFF;
+
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'Outfit', system-ui, sans-serif;
+    --mono: 'DM Mono', monospace;
+
+    --max: 1180px;
+    --nav-h: 68px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.6;
+    font-size: 16px;
+    overflow-x: hidden;
+  }
+
+  /* ---------- NAV ---------- */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    height: var(--nav-h);
+    background: rgba(250,248,244,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--stone-dark);
+    z-index: 100;
+    display: flex; align-items: center;
+  }
+  .nav-inner {
+    max-width: var(--max); width: 100%; margin: 0 auto;
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .logo {
+    font-family: var(--serif);
+    font-size: 1.55rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+    text-decoration: none;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .logo-leaf {
+    width: 22px; height: 22px;
+    display: inline-block;
+  }
+  .nav-links {
+    display: flex; align-items: center; gap: 2rem;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-cta {
+    font-size: 0.82rem !important;
+    font-weight: 500 !important;
+    color: var(--sage) !important;
+    border: 1px solid var(--sage) !important;
+    padding: 0.4rem 1.1rem;
+    border-radius: 2px;
+    transition: background 0.2s, color 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--sage) !important; color: var(--white) !important; }
+
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+  .hamburger span { display: block; width: 22px; height: 1.5px; background: var(--ink); transition: 0.3s; }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    min-height: 100vh;
+    padding-top: var(--nav-h);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    max-width: var(--max);
+    margin: 0 auto;
+    padding-left: 2rem; padding-right: 2rem;
+    align-items: center;
+    gap: 4rem;
+  }
+  .hero-text {}
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: block; width: 28px; height: 1px;
+    background: var(--sage);
+  }
+  h1 {
+    font-family: var(--serif);
+    font-size: clamp(3rem, 5.5vw, 5.2rem);
+    font-weight: 300;
+    line-height: 1.08;
+    color: var(--ink);
+    margin-bottom: 1.8rem;
+  }
+  h1 em {
+    font-style: italic;
+    color: var(--sage);
+  }
+  .hero-sub {
+    font-size: 1.05rem;
+    color: var(--ink-soft);
+    max-width: 440px;
+    line-height: 1.75;
+    margin-bottom: 2.5rem;
+  }
+  .hero-actions { display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap; }
+  .btn-primary {
+    display: inline-block;
+    background: var(--sage);
+    color: var(--white);
+    font-family: var(--sans);
+    font-size: 0.88rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    padding: 0.9rem 2rem;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    border: none; cursor: pointer;
+  }
+  .btn-primary:hover { background: var(--sage-light); transform: translateY(-1px); }
+  .btn-ghost {
+    display: inline-block;
+    color: var(--ink-soft);
+    font-family: var(--sans);
+    font-size: 0.88rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    border-bottom: 1px solid var(--stone-mid);
+    padding-bottom: 2px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .btn-ghost:hover { color: var(--sage); border-color: var(--sage); }
+
+  /* Hero illustration */
+  .hero-visual {
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .hero-card-stack {
+    width: 100%; max-width: 420px;
+    position: relative;
+  }
+  .hcard {
+    background: var(--white);
+    border: 1px solid var(--stone-dark);
+    border-radius: 4px;
+    padding: 1.5rem 1.75rem;
+    position: relative;
+  }
+  .hcard-back {
+    position: absolute;
+    width: 90%; left: 5%;
+    top: -14px;
+    background: var(--stone);
+    border: 1px solid var(--stone-mid);
+    border-radius: 4px;
+    height: 60px;
+    z-index: 0;
+  }
+  .hcard-back2 {
+    position: absolute;
+    width: 82%; left: 9%;
+    top: -26px;
+    background: var(--stone-dark);
+    border: 1px solid var(--stone-mid);
+    border-radius: 4px;
+    height: 60px;
+    z-index: -1;
+  }
+  .hcard { z-index: 1; }
+  .hcard-label {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 1rem;
+  }
+  .hcard-title {
+    font-family: var(--serif);
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-bottom: 0.35rem;
+  }
+  .hcard-sub { font-size: 0.82rem; color: var(--ink-muted); margin-bottom: 1.25rem; }
+  .hcard-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; }
+  .hfield-label { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 0.2rem; font-family: var(--mono); }
+  .hfield-value { font-size: 0.88rem; color: var(--ink-soft); font-weight: 400; }
+  .hcard-tag {
+    display: inline-block;
+    background: var(--sage-pale);
+    color: var(--sage);
+    font-size: 0.7rem;
+    font-family: var(--mono);
+    letter-spacing: 0.08em;
+    padding: 0.25rem 0.65rem;
+    border-radius: 2px;
+    margin-top: 1rem;
+  }
+  .hero-stat-row {
+    display: flex; gap: 1.25rem;
+    margin-top: 1.5rem;
+  }
+  .hero-stat {
+    flex: 1;
+    background: var(--stone);
+    border-radius: 3px;
+    padding: 0.9rem 1rem;
+    text-align: center;
+  }
+  .hero-stat-num {
+    font-family: var(--serif);
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: var(--ink);
+    display: block;
+  }
+  .hero-stat-lbl {
+    font-size: 0.68rem;
+    font-family: var(--mono);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+
+  /* ---------- PROBLEM ---------- */
+  .problem-section {
+    background: var(--ink);
+    padding: 6rem 2rem;
+  }
+  .section-inner { max-width: var(--max); margin: 0 auto; }
+  .problem-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 5rem; align-items: start; }
+  .section-eyebrow {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--sage-light);
+    margin-bottom: 1.25rem;
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .section-eyebrow::before { content: ''; display: block; width: 24px; height: 1px; background: var(--sage-light); }
+  h2 {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 3.8vw, 3.4rem);
+    font-weight: 300;
+    line-height: 1.12;
+    color: var(--white);
+  }
+  h2.dark { color: var(--ink); }
+  h2 em { font-style: italic; color: var(--sage-light); }
+  h2.dark em { color: var(--sage); }
+  .problem-body {
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.62);
+    line-height: 1.8;
+    margin-top: 1.75rem;
+  }
+  .problem-stats { display: flex; flex-direction: column; gap: 1px; }
+  .pstat {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.75rem;
+    align-items: start;
+    padding: 1.75rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .pstat:first-child { padding-top: 0; }
+  .pstat-num {
+    font-family: var(--serif);
+    font-size: 2.8rem;
+    font-weight: 300;
+    color: var(--bronze-light);
+    line-height: 1;
+    min-width: 100px;
+  }
+  .pstat-text { color: rgba(255,255,255,0.75); font-size: 0.93rem; line-height: 1.65; padding-top: 0.3rem; }
+  .pstat-text strong { color: var(--white); font-weight: 500; display: block; margin-bottom: 0.3rem; font-size: 1rem; }
+
+  /* ---------- PRODUCT ---------- */
+  .product-section { padding: 7rem 2rem; background: var(--stone); }
+  .product-intro { max-width: 600px; margin-bottom: 4rem; }
+  .product-intro p { color: var(--ink-soft); font-size: 1rem; line-height: 1.75; margin-top: 1rem; }
+  .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5px; background: var(--stone-mid); border: 1px solid var(--stone-mid); }
+  .feat-card {
+    background: var(--white);
+    padding: 2.25rem 2rem;
+    position: relative;
+    transition: background 0.2s;
+  }
+  .feat-card:hover { background: var(--cream); }
+  .feat-icon {
+    width: 38px; height: 38px;
+    background: var(--sage-pale);
+    border-radius: 2px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1.25rem;
+  }
+  .feat-icon svg { width: 18px; height: 18px; stroke: var(--sage); fill: none; stroke-width: 1.5; }
+  .feat-card h3 {
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 0.65rem;
+  }
+  .feat-card p { font-size: 0.88rem; color: var(--ink-muted); line-height: 1.7; }
+  .feat-tag {
+    position: absolute; top: 1.5rem; right: 1.5rem;
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--bronze);
+    background: var(--bronze-pale);
+    padding: 0.2rem 0.5rem;
+    border-radius: 2px;
+  }
+
+  /* ---------- HOW IT WORKS ---------- */
+  .how-section { padding: 7rem 2rem; background: var(--cream); }
+  .how-intro { max-width: 560px; margin-bottom: 4.5rem; }
+  .how-intro p { color: var(--ink-soft); font-size: 1rem; line-height: 1.75; margin-top: 1rem; }
+  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; position: relative; }
+  .steps::before {
+    content: '';
+    position: absolute;
+    top: 28px; left: calc(12.5% + 14px); right: calc(12.5% + 14px);
+    height: 1px; background: var(--stone-mid);
+    z-index: 0;
+  }
+  .step { text-align: center; padding: 0 1.25rem; position: relative; z-index: 1; }
+  .step-num {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    border: 1px solid var(--stone-mid);
+    background: var(--white);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-family: var(--serif);
+    font-size: 1.35rem;
+    font-weight: 400;
+    color: var(--sage);
+  }
+  .step h3 { font-family: var(--serif); font-size: 1.05rem; font-weight: 500; color: var(--ink); margin-bottom: 0.5rem; }
+  .step p { font-size: 0.83rem; color: var(--ink-muted); line-height: 1.65; }
+
+  /* ---------- GENEALOGY ---------- */
+  .gen-section {
+    padding: 7rem 2rem;
+    background: var(--ink);
+    position: relative;
+    overflow: hidden;
+  }
+  .gen-bg-text {
+    position: absolute;
+    right: -2rem; bottom: -3rem;
+    font-family: var(--serif);
+    font-size: 22rem;
+    font-weight: 300;
+    color: rgba(255,255,255,0.025);
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+  }
+  .gen-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 5rem; align-items: center; }
+  .gen-visual {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 4px;
+    padding: 2rem;
+  }
+  .gen-search-bar {
+    display: flex; gap: 0.5rem; margin-bottom: 1.5rem;
+  }
+  .gen-search-input {
+    flex: 1;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 2px;
+    padding: 0.65rem 1rem;
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.9);
+    font-family: var(--sans);
+  }
+  .gen-search-btn {
+    background: var(--sage);
+    border: none;
+    border-radius: 2px;
+    padding: 0.65rem 1.1rem;
+    color: var(--white);
+    font-size: 0.82rem;
+    cursor: pointer;
+    font-family: var(--sans);
+    letter-spacing: 0.03em;
+  }
+  .gen-result {
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 1.25rem;
+  }
+  .gen-result-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+  .gen-result-name { font-family: var(--serif); font-size: 1.3rem; color: var(--white); }
+  .gen-badge {
+    font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--sage-light);
+    border: 1px solid rgba(107,143,98,0.4); border-radius: 2px;
+    padding: 0.2rem 0.6rem;
+  }
+  .gen-detail-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.5rem; }
+  .gen-detail { font-size: 0.8rem; }
+  .gen-detail-label { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 0.15rem; }
+  .gen-detail-val { color: rgba(255,255,255,0.75); }
+  .gen-map-thumb {
+    background: rgba(74,103,65,0.2);
+    border: 1px solid rgba(107,143,98,0.3);
+    border-radius: 2px;
+    height: 80px;
+    margin-top: 1rem;
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(107,143,98,0.7);
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    gap: 0.5rem;
+  }
+  .gen-text { color: rgba(255,255,255,0.65); font-size: 0.95rem; line-height: 1.8; }
+  .gen-text p + p { margin-top: 1rem; }
+  .gen-feature-list { margin-top: 2rem; display: flex; flex-direction: column; gap: 0.9rem; }
+  .gen-feat-item { display: flex; align-items: flex-start; gap: 0.85rem; }
+  .gen-feat-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--sage-light);
+    margin-top: 0.45rem;
+    flex-shrink: 0;
+  }
+  .gen-feat-text { font-size: 0.88rem; color: rgba(255,255,255,0.65); line-height: 1.6; }
+  .gen-feat-text strong { color: var(--white); font-weight: 500; }
+
+  /* ---------- FOUNDER ---------- */
+  .founder-section { padding: 7rem 2rem; background: var(--stone); }
+  .founder-grid { display: grid; grid-template-columns: 380px 1fr; gap: 5rem; align-items: start; }
+  .founder-card {
+    background: var(--white);
+    border: 1px solid var(--stone-dark);
+    border-radius: 4px;
+    overflow: hidden;
+    position: sticky;
+    top: calc(var(--nav-h) + 2rem);
+  }
+  .founder-portrait {
+    background: linear-gradient(135deg, var(--sage-pale) 0%, var(--stone) 100%);
+    height: 260px;
+    display: flex; align-items: center; justify-content: center;
+    border-bottom: 1px solid var(--stone-dark);
+    position: relative;
+    overflow: hidden;
+  }
+  .founder-initials {
+    font-family: var(--serif);
+    font-size: 5rem;
+    font-weight: 300;
+    color: var(--sage);
+    letter-spacing: 0.05em;
+    opacity: 0.6;
+  }
+  .founder-portrait-deco {
+    position: absolute;
+    bottom: -20px; right: -20px;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    border: 1px solid rgba(74,103,65,0.2);
+  }
+  .founder-portrait-deco2 {
+    position: absolute;
+    top: -10px; left: -10px;
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    border: 1px solid rgba(74,103,65,0.12);
+  }
+  .founder-card-body { padding: 1.75rem; }
+  .founder-name { font-family: var(--serif); font-size: 1.5rem; font-weight: 500; color: var(--ink); margin-bottom: 0.3rem; }
+  .founder-role { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--sage); margin-bottom: 1.25rem; }
+  .founder-meta { display: flex; flex-direction: column; gap: 0.65rem; }
+  .founder-meta-row { display: flex; align-items: center; gap: 0.75rem; }
+  .fmeta-icon { width: 16px; height: 16px; stroke: var(--ink-muted); fill: none; stroke-width: 1.5; flex-shrink: 0; }
+  .fmeta-text { font-size: 0.82rem; color: var(--ink-muted); }
+  .founder-divider { height: 1px; background: var(--stone-dark); margin: 1.25rem 0; }
+  .founder-story {}
+  .founder-story .section-eyebrow { color: var(--sage); }
+  .founder-story .section-eyebrow::before { background: var(--sage); }
+  .founder-story h2 { color: var(--ink); }
+  .founder-story h2 em { color: var(--sage); }
+  .founder-body { color: var(--ink-soft); font-size: 0.97rem; line-height: 1.85; }
+  .founder-body p + p { margin-top: 1.25rem; }
+  .founder-quote {
+    margin: 2rem 0;
+    padding: 1.5rem 2rem;
+    border-left: 3px solid var(--sage);
+    background: var(--sage-pale);
+    border-radius: 0 4px 4px 0;
+  }
+  .founder-quote p {
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1.55;
+    font-style: italic;
+  }
+  .founder-quote cite { display: block; margin-top: 0.75rem; font-style: normal; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--sage); }
+  .founder-timeline { margin-top: 2.5rem; }
+  .founder-timeline h4 { font-family: var(--serif); font-size: 1rem; font-weight: 500; color: var(--ink); margin-bottom: 1.25rem; }
+  .tl-item { display: flex; gap: 1.25rem; margin-bottom: 1.25rem; align-items: flex-start; }
+  .tl-dot-wrap { display: flex; flex-direction: column; align-items: center; }
+  .tl-dot { width: 9px; height: 9px; border-radius: 50%; border: 2px solid var(--sage); background: var(--white); flex-shrink: 0; margin-top: 5px; }
+  .tl-line { width: 1px; flex: 1; min-height: 28px; background: var(--stone-mid); margin-top: 4px; }
+  .tl-content {}
+  .tl-year { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--sage); }
+  .tl-desc { font-size: 0.85rem; color: var(--ink-soft); line-height: 1.6; margin-top: 0.1rem; }
+
+  /* ---------- PRICING ---------- */
+  .pricing-section { padding: 7rem 2rem; background: var(--cream); }
+  .pricing-intro { max-width: 560px; margin-bottom: 3.5rem; }
+  .pricing-intro p { color: var(--ink-soft); font-size: 1rem; line-height: 1.75; margin-top: 1rem; }
+  .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5px; background: var(--stone-mid); border: 1px solid var(--stone-mid); }
+  .price-card { background: var(--white); padding: 2.5rem 2rem; }
+  .price-card.featured { background: var(--ink); }
+  .price-plan { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 0.75rem; }
+  .price-card.featured .price-plan { color: rgba(255,255,255,0.45); }
+  .price-amount { display: flex; align-items: baseline; gap: 0.3rem; margin-bottom: 0.5rem; }
+  .price-num { font-family: var(--serif); font-size: 2.8rem; font-weight: 300; color: var(--ink); line-height: 1; }
+  .price-card.featured .price-num { color: var(--white); }
+  .price-period { font-size: 0.8rem; color: var(--ink-muted); }
+  .price-card.featured .price-period { color: rgba(255,255,255,0.4); }
+  .price-desc { font-size: 0.82rem; color: var(--ink-muted); line-height: 1.6; margin-bottom: 1.75rem; border-bottom: 1px solid var(--stone-dark); padding-bottom: 1.5rem; }
+  .price-card.featured .price-desc { color: rgba(255,255,255,0.5); border-color: rgba(255,255,255,0.1); }
+  .price-features { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 2rem; }
+  .price-features li { display: flex; align-items: flex-start; gap: 0.75rem; font-size: 0.85rem; color: var(--ink-soft); line-height: 1.5; }
+  .price-card.featured .price-features li { color: rgba(255,255,255,0.7); }
+  .pf-check { width: 16px; height: 16px; stroke: var(--sage); fill: none; stroke-width: 2; flex-shrink: 0; margin-top: 1px; }
+  .price-card.featured .pf-check { stroke: var(--sage-light); }
+  .price-btn {
+    display: block; width: 100%;
+    text-align: center;
+    padding: 0.85rem 1.5rem;
+    border-radius: 2px;
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: 0.2s;
+  }
+  .price-btn-outline { background: transparent; border: 1px solid var(--stone-dark); color: var(--ink); }
+  .price-btn-outline:hover { border-color: var(--sage); color: var(--sage); }
+  .price-btn-green { background: var(--sage); color: var(--white); }
+  .price-btn-green:hover { background: var(--sage-light); }
+
+  /* ---------- CTA ---------- */
+  .cta-section {
+    background: var(--sage);
+    padding: 6rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-deco {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.12);
+    pointer-events: none;
+  }
+  .cta-deco2 {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    width: 900px; height: 900px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.06);
+    pointer-events: none;
+  }
+  .cta-section h2 { color: var(--white); position: relative; }
+  .cta-section h2 em { color: var(--bronze-pale); }
+  .cta-sub { color: rgba(255,255,255,0.75); font-size: 1rem; max-width: 480px; margin: 1.25rem auto 2.5rem; line-height: 1.7; position: relative; }
+  .cta-actions { display: flex; align-items: center; justify-content: center; gap: 1.25rem; position: relative; }
+  .btn-white {
+    display: inline-block;
+    background: var(--white);
+    color: var(--sage);
+    font-family: var(--sans);
+    font-size: 0.88rem;
+    font-weight: 500;
+    padding: 0.9rem 2rem;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: 0.2s;
+  }
+  .btn-white:hover { background: var(--cream); }
+  .btn-white-ghost {
+    display: inline-block;
+    color: rgba(255,255,255,0.85);
+    font-family: var(--sans);
+    font-size: 0.88rem;
+    border-bottom: 1px solid rgba(255,255,255,0.4);
+    padding-bottom: 2px;
+    text-decoration: none;
+    transition: 0.2s;
+  }
+  .btn-white-ghost:hover { color: var(--white); border-color: var(--white); }
+
+  /* ---------- FOOTER ---------- */
+  footer {
+    background: var(--ink);
+    padding: 3.5rem 2rem 2rem;
+  }
+  .footer-grid { max-width: var(--max); margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+  .footer-brand .logo { color: var(--white); }
+  .footer-brand p { font-size: 0.85rem; color: rgba(255,255,255,0.4); margin-top: 0.75rem; line-height: 1.7; max-width: 240px; }
+  .footer-col h5 { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 1rem; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.65rem; }
+  .footer-col a { font-size: 0.85rem; color: rgba(255,255,255,0.55); text-decoration: none; transition: color 0.2s; }
+  .footer-col a:hover { color: var(--white); }
+  .footer-bottom { max-width: var(--max); margin: 0 auto; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; }
+  .footer-bottom p { font-size: 0.78rem; color: rgba(255,255,255,0.3); font-family: var(--mono); letter-spacing: 0.05em; }
+
+  /* Mobile */
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 3rem; padding-top: calc(var(--nav-h) + 2rem); min-height: auto; padding-bottom: 4rem; }
+    .hero-visual { order: -1; }
+    .problem-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .features-grid { grid-template-columns: 1fr 1fr; }
+    .steps { grid-template-columns: 1fr 1fr; }
+    .steps::before { display: none; }
+    .gen-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .founder-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .founder-card { position: static; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+  }
+  @media (max-width: 580px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .features-grid { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .hero-actions { flex-direction: column; align-items: flex-start; }
+  }
+
+  /* Animations */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  .hero-text > * { animation: fadeUp 0.7s ease both; }
+  .hero-text > *:nth-child(1) { animation-delay: 0.1s; }
+  .hero-text > *:nth-child(2) { animation-delay: 0.2s; }
+  .hero-text > *:nth-child(3) { animation-delay: 0.35s; }
+  .hero-text > *:nth-child(4) { animation-delay: 0.5s; }
+  .hero-visual { animation: fadeUp 0.9s 0.3s ease both; }
+
+  /* Mobile nav overlay */
+  .mobile-nav { display: none; position: fixed; inset: 0; background: var(--cream); z-index: 200; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; }
+  .mobile-nav.open { display: flex; }
+  .mobile-nav a { font-family: var(--serif); font-size: 2rem; color: var(--ink); text-decoration: none; font-weight: 300; }
+  .mobile-nav-close { position: absolute; top: 1.5rem; right: 2rem; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--ink); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <svg class="logo-leaf" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="11" cy="11" rx="8" ry="10" transform="rotate(-20 11 11)" stroke="#4A6741" stroke-width="1.2"/>
+        <line x1="11" y1="4" x2="11" y2="19" stroke="#4A6741" stroke-width="0.8"/>
+        <line x1="11" y1="10" x2="15" y2="7" stroke="#4A6741" stroke-width="0.6"/>
+        <line x1="11" y1="13" x2="8" y2="11" stroke="#4A6741" stroke-width="0.6"/>
+      </svg>
+      Quivern
+    </a>
+    <ul class="nav-links">
+      <li><a href="#product">Platform</a></li>
+      <li><a href="#genealogy">Genealogy</a></li>
+      <li><a href="#founder">Founder</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#contact" class="nav-cta">Request Demo</a></li>
+    </ul>
+    <button class="hamburger" onclick="document.querySelector('.mobile-nav').classList.add('open')" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile nav -->
+<div class="mobile-nav">
+  <button class="mobile-nav-close" onclick="document.querySelector('.mobile-nav').classList.remove('open')">✕</button>
+  <a href="#product" onclick="document.querySelector('.mobile-nav').classList.remove('open')">Platform</a>
+  <a href="#genealogy" onclick="document.querySelector('.mobile-nav').classList.remove('open')">Genealogy</a>
+  <a href="#founder" onclick="document.querySelector('.mobile-nav').classList.remove('open')">Founder</a>
+  <a href="#pricing" onclick="document.querySelector('.mobile-nav').classList.remove('open')">Pricing</a>
+  <a href="#contact" onclick="document.querySelector('.mobile-nav').classList.remove('open')">Demo</a>
+</div>
+
+<!-- HERO -->
+<section>
+  <div class="hero">
+    <div class="hero-text">
+      <p class="hero-eyebrow">Cemetery & Memorial Operations</p>
+      <h1>Two centuries of records.<br><em>Finally, software</em><br>to match.</h1>
+      <p class="hero-sub">Quivern digitises plot inventory, ownership deeds, and perpetual care funds for America's 20,000+ cemeteries — and connects families to their genealogical roots, forever.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-primary">Request a Demo</a>
+        <a href="#product" class="btn-ghost">See the platform →</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-card-stack">
+        <div class="hcard-back2"></div>
+        <div class="hcard-back"></div>
+        <div class="hcard">
+          <p class="hcard-label">Plot Record — Digitised</p>
+          <p class="hcard-title">Eleanor Rose Hargrove</p>
+          <p class="hcard-sub">Evergreen Memorial Park, Section 14, Row C, Plot 7</p>
+          <div class="hcard-fields">
+            <div>
+              <p class="hfield-label">Interment Date</p>
+              <p class="hfield-value">March 12, 1931</p>
+            </div>
+            <div>
+              <p class="hfield-label">Deed No.</p>
+              <p class="hfield-value">EP-1931-0842</p>
+            </div>
+            <div>
+              <p class="hfield-label">Plot Status</p>
+              <p class="hfield-value">Perpetual Care</p>
+            </div>
+            <div>
+              <p class="hfield-label">Ownership</p>
+              <p class="hfield-value">Hargrove Estate</p>
+            </div>
+          </div>
+          <span class="hcard-tag">✓ Verified & Digitised</span>
+        </div>
+        <div class="hero-stat-row">
+          <div class="hero-stat">
+            <span class="hero-stat-num">20k+</span>
+            <span class="hero-stat-lbl">US Cemeteries</span>
+          </div>
+          <div class="hero-stat">
+            <span class="hero-stat-num">200yr</span>
+            <span class="hero-stat-lbl">Record Depth</span>
+          </div>
+          <div class="hero-stat">
+            <span class="hero-stat-num">$0</span>
+            <span class="hero-stat-lbl">Software Today</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problem-section">
+  <div class="section-inner">
+    <div class="problem-grid">
+      <div>
+        <p class="section-eyebrow">The Problem</p>
+        <h2>A $24B industry running on paper and memory.</h2>
+        <p class="problem-body">Across America, cemetery superintendents open filing cabinets to find burial records that predate World War II. Deeds are handwritten in ledger books. Plot maps are hand-drawn blueprints, yellowing in storage rooms. When a family calls to find a loved one, the answer depends entirely on who picks up the phone — and whether they happen to know.</p>
+      </div>
+      <div class="problem-stats">
+        <div class="pstat">
+          <div class="pstat-num">87%</div>
+          <div class="pstat-text"><strong>No management software</strong>Of US cemeteries still rely entirely on paper-based record systems, with no digital backup or access.</div>
+        </div>
+        <div class="pstat">
+          <div class="pstat-num">4.2M</div>
+          <div class="pstat-text"><strong>Plot disputes annually</strong>Double-sold plots, lost deeds, and undocumented transfers generate millions in legal disputes each year.</div>
+        </div>
+        <div class="pstat">
+          <div class="pstat-num">200yr</div>
+          <div class="pstat-text"><strong>Records at risk</strong>Irreplaceable historical burial records face constant threats from fire, flood, and institutional memory loss.</div>
+        </div>
+        <div class="pstat">
+          <div class="pstat-num">$14B</div>
+          <div class="pstat-text"><strong>Perpetual care funds</strong>Mismanaged or untracked, representing a fiduciary crisis across thousands of institutions.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCT -->
+<section class="product-section" id="product">
+  <div class="section-inner">
+    <div class="product-intro">
+      <p class="section-eyebrow" style="color:var(--sage)">The Platform</p>
+      <h2 class="dark">Everything a cemetery needs. <em>Built from the ground up.</em></h2>
+      <p>Quivern is purpose-built for cemetery operations — not adapted from generic property software. We understand the weight of what you're managing.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feat-card">
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        </div>
+        <h3>Plot Inventory Management</h3>
+        <p>Interactive map-based inventory with real-time availability. Track every section, row, and plot — available, sold, reserved, or under perpetual care — from a single dashboard.</p>
+      </div>
+      <div class="feat-card">
+        <span class="feat-tag">Core</span>
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        </div>
+        <h3>Deed & Ownership Digitisation</h3>
+        <p>Scan, OCR, and index paper deeds dating back to the 1800s. AI-assisted transcription with human verification. Full chain of ownership, transfers, and co-ownership records.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <h3>Perpetual Care Fund Tracking</h3>
+        <p>Transparent, auditable fund management with per-plot contribution tracking, interest calculation, and regulatory reporting. Built for fiduciary compliance.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+        </div>
+        <h3>Burial Record Search</h3>
+        <p>Instant full-text search across all records — by name, date, section, or deed number. Mobile-accessible for staff in the field. Shareable public memorial pages for families.</p>
+      </div>
+      <div class="feat-card">
+        <span class="feat-tag">New</span>
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3>Genealogy Integration</h3>
+        <p>Connect your cemetery records to major genealogy databases. Families searching Ancestry, FindAGrave, and FamilySearch automatically discover your interments.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24"><path d="M3 3h18v18H3z" stroke-linejoin="round"/><path d="M3 9h18M9 3v18"/></svg>
+        </div>
+        <h3>Compliance & Reporting</h3>
+        <p>State-specific reporting templates, annual fund statements, and audit-ready export. Automatically generates regulatory filings required by your state's cemetery authority.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section">
+  <div class="section-inner">
+    <div class="how-intro">
+      <p class="section-eyebrow" style="color:var(--sage)">Getting Started</p>
+      <h2 class="dark">Live in <em>weeks,</em> not years.</h2>
+      <p>Our white-glove onboarding team handles record scanning, data entry, and staff training. You focus on your families — we handle the migration.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">I</div>
+        <h3>Discovery Call</h3>
+        <p>We assess your record volume, condition, and operational needs. No obligation, full transparency on timeline and cost.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">II</div>
+        <h3>Record Digitisation</h3>
+        <p>Our archival team scans, transcribes, and indexes your paper records with care — on-site or via secure mail-in service.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">III</div>
+        <h3>Platform Setup</h3>
+        <p>Your data loads into Quivern. We configure plot maps, fund accounts, and user permissions for your team structure.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">IV</div>
+        <h3>Go Live</h3>
+        <p>Staff training, family-facing portal launch, and genealogy integration activated. Ongoing support included in every plan.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GENEALOGY -->
+<section class="gen-section" id="genealogy">
+  <div class="gen-bg-text">roots</div>
+  <div class="section-inner">
+    <div class="gen-grid">
+      <div class="gen-visual">
+        <p style="font-family:var(--mono);font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:1rem;">Genealogy Search — Live Demo</p>
+        <div class="gen-search-bar">
+          <input class="gen-search-input" type="text" value="Margaret A. Dunnmore, b. 1887" readonly>
+          <button class="gen-search-btn">Search</button>
+        </div>
+        <div class="gen-result">
+          <div class="gen-result-header">
+            <p class="gen-result-name">Margaret A. Dunnmore</p>
+            <span class="gen-badge">1 match found</span>
+          </div>
+          <div class="gen-detail-row">
+            <div class="gen-detail">
+              <p class="gen-detail-label">Born</p>
+              <p class="gen-detail-val">April 2, 1887 — Cork, Ireland</p>
+            </div>
+            <div class="gen-detail">
+              <p class="gen-detail-label">Interred</p>
+              <p class="gen-detail-val">October 15, 1954</p>
+            </div>
+          </div>
+          <div class="gen-detail-row">
+            <div class="gen-detail">
+              <p class="gen-detail-label">Cemetery</p>
+              <p class="gen-detail-val">St. Brendan's, Boston MA</p>
+            </div>
+            <div class="gen-detail">
+              <p class="gen-detail-label">Plot</p>
+              <p class="gen-detail-val">Section F, Row 12, Plot 4</p>
+            </div>
+          </div>
+          <div class="gen-map-thumb">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            View plot on cemetery map
+          </div>
+        </div>
+      </div>
+      <div>
+        <p class="section-eyebrow">Genealogy Module</p>
+        <h2>The link between <em>the living</em> and the lost.</h2>
+        <div class="gen-text" style="margin-top:1.5rem;">
+          <p>Over 100 million Americans are actively researching their family history. When they search for an ancestor's grave, they land on incomplete databases — or nothing at all.</p>
+          <p>Quivern makes every interment in your cemetery discoverable, permanently, on the platforms families already use.</p>
+        </div>
+        <div class="gen-feature-list">
+          <div class="gen-feat-item">
+            <div class="gen-feat-dot"></div>
+            <p class="gen-feat-text"><strong>Ancestry & FamilySearch sync</strong> — Your records appear where genealogists already search, automatically updated as you add new interments.</p>
+          </div>
+          <div class="gen-feat-item">
+            <div class="gen-feat-dot"></div>
+            <p class="gen-feat-text"><strong>FindAGrave integration</strong> — Memorial pages auto-created for every burial record, with cemetery-verified accuracy badges.</p>
+          </div>
+          <div class="gen-feat-item">
+            <div class="gen-feat-dot"></div>
+            <p class="gen-feat-text"><strong>Public search portal</strong> — A branded, embeddable search widget for your own website. Families self-serve; your staff spends less time on phone lookups.</p>
+          </div>
+          <div class="gen-feat-item">
+            <div class="gen-feat-dot"></div>
+            <p class="gen-feat-text"><strong>Plot location directions</strong> — GPS-enabled walking directions to any gravesite from any entrance. Cemetery-verified coordinates, not satellite guesses.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOUNDER -->
+<section class="founder-section" id="founder">
+  <div class="section-inner">
+    <div class="founder-grid">
+      <div class="founder-card">
+        <div class="founder-portrait">
+          <div class="founder-portrait-deco"></div>
+          <div class="founder-portrait-deco2"></div>
+          <span class="founder-initials">SD</span>
+        </div>
+        <div class="founder-card-body">
+          <p class="founder-name">Saidev Dhal</p>
+          <p class="founder-role">Founder & CEO, Quivern</p>
+          <div class="founder-meta">
+            <div class="founder-meta-row">
+              <svg class="fmeta-icon" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span class="fmeta-text">United States</span>
+            </div>
+            <div class="founder-meta-row">
+              <svg class="fmeta-icon" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.5 2 2 0 0 1 3.6 1.32h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21.5 16.5z"/></svg>
+              <span class="fmeta-text">hello@quivern.com</span>
+            </div>
+          </div>
+          <div class="founder-divider"></div>
+          <p style="font-size:0.78rem;color:var(--ink-muted);line-height:1.6;">Building the infrastructure layer for a $24B industry that has operated without software since its founding.</p>
+        </div>
+      </div>
+      <div class="founder-story">
+        <p class="section-eyebrow" style="color:var(--sage)">The Founder</p>
+        <h2 class="dark">The right person to solve a <em>deeply human</em> problem.</h2>
+        <div class="founder-body" style="margin-top:1.75rem;">
+          <p>Saidev Dhal founded Quivern after a personal encounter with exactly the problem he now solves. Researching his family history, he spent weeks trying to locate a great-grandmother's burial records — only to be told by a cemetery administrator that the information was "probably in one of the boxes in the back." It wasn't found.</p>
+          <p>That experience crystallised a mission: every burial record, no matter how old or how small the cemetery, deserves permanence. Every family searching for a loved one deserves an answer — not a voicemail and a waiting game.</p>
+
+          <div class="founder-quote">
+            <p>"Cemeteries are the original data companies. They've been collecting precise, location-stamped records of human lives for two centuries. They just never had a way to use them."</p>
+            <cite>— Saidev Dhal, Founder of Quivern</cite>
+          </div>
+
+          <p>Before Quivern, Saidev worked at the intersection of operations technology and archival systems, developing deep intuition for how legacy institutions — the ones society depends on most — adopt software. The answer, consistently: only when it genuinely understands their workflow.</p>
+          <p>Quivern is built on that principle. Every product decision is made in consultation with working cemetery superintendents, genealogists, and estate attorneys. The result is software that doesn't ask operators to change how they think — it digitises the logic they already use.</p>
+        </div>
+
+        <div class="founder-timeline">
+          <h4>Building Quivern</h4>
+          <div class="tl-item">
+            <div class="tl-dot-wrap"><div class="tl-dot"></div><div class="tl-line"></div></div>
+            <div class="tl-content">
+              <p class="tl-year">Origin</p>
+              <p class="tl-desc">Personal genealogical research surfaces the problem — 20,000+ US cemeteries, near-zero software adoption, irreplaceable records at risk.</p>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot-wrap"><div class="tl-dot"></div><div class="tl-line"></div></div>
+            <div class="tl-content">
+              <p class="tl-year">Research</p>
+              <p class="tl-desc">50+ interviews with cemetery operators, genealogists, probate attorneys, and state cemetery regulators across 12 states.</p>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot-wrap"><div class="tl-dot"></div><div class="tl-line"></div></div>
+            <div class="tl-content">
+              <p class="tl-year">Product</p>
+              <p class="tl-desc">Core platform built with three pilot cemeteries: one municipal (8,000 plots), one church (2,200 plots), one historic private (15,000 plots, records to 1848).</p>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+            <div class="tl-content">
+              <p class="tl-year">Now</p>
+              <p class="tl-desc">Expanding to 50 cemeteries across 8 states. Genealogy integration live with Ancestry API. Perpetual care compliance module in beta.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section" id="pricing">
+  <div class="section-inner">
+    <div class="pricing-intro">
+      <p class="section-eyebrow" style="color:var(--sage)">Pricing</p>
+      <h2 class="dark">Transparent pricing for institutions of <em>every size.</em></h2>
+      <p>No per-record fees. No per-user seat pricing. One flat monthly rate — because your cemetery serves everyone equally.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <p class="price-plan">Community</p>
+        <div class="price-amount">
+          <span class="price-num">$149</span>
+          <span class="price-period">/ month</span>
+        </div>
+        <p class="price-desc">For small cemeteries, church yards, and historic societies managing under 5,000 plots.</p>
+        <ul class="price-features">
+          <li>
+            <svg class="pf-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            Up to 5,000 plot records
+          </li>
+          <li>
+            <svg class="pf-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            Deed digitisation (up to 500 docs)
+          </li>
+          <li>
+            <svg class="pf-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            Public burial search portal
+          </li>
+          <li>
+            <svg class="pf-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            FindAGrave integration
+          </li>
+          <li>
+            <svg class="pf-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            Email support
+          </li>
+        </ul>
+        <a href="#contact" class="price-btn price-btn-outline">Get Started</a>
+      </div>
+      <div class="price-card featured">
+        <p class="price-plan">Operations</p>
+        <div class="price-amount">
+          <span class="price-num">$449</span>
+          <span class="price-period">/ month</span>
+        </div>
+        <p class="price-desc">For mid-size cemeteries and memorial parks requiring full operational management.</p>
+        <ul class="price-features">
+          <li>
+            <svg class="pf-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            Up to 25,000 plot records
+          </li>
+          <li>
+            <svg class="pf-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            Unlimited deed digitisation
+          </li>
+          <li>
+            <svg class="pf-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            Perpetual care fund management
+          </li>
+          <li>
+            <svg class="pf-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            Ancestry & FamilySearch sync
+          </li>
+          <li>
+            <svg class="pf-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            Compliance reporting suite
+          </li>
+          <li>
+            <svg class="pf-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            Priority phone support
+          </li>
+        </ul>
+        <a href="#contact" class="price-btn price-btn-green">Request Demo</a>
+      </div>
+      <div class="price-card">
+        <p class="price-plan">Enterprise</p>
+        <div class="price-amount">
+          <span class="price-num" style="font-size:2rem;">Custom</span>
+        </div>
+        <p class="price-desc">For large memorial park groups, municipal systems, and multi-location operators.</p>
+        <ul class="price-features">
+          <li>
+            <svg class="pf-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            Unlimited plots & records
+          </li>
+          <li>
+            <svg class="pf-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            Multi-location management
+          </li>
+          <li>
+            <svg class="pf-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            Custom integrations & API access
+          </li>
+          <li>
+            <svg class="pf-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            Dedicated onboarding team
+          </li>
+          <li>
+            <svg class="pf-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            SLA & uptime guarantees
+          </li>
+          <li>
+            <svg class="pf-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            24/7 dedicated support
+          </li>
+        </ul>
+        <a href="#contact" class="price-btn price-btn-outline">Contact Sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+  <div class="cta-deco"></div>
+  <div class="cta-deco2"></div>
+  <h2>Ready to bring your records <em>into the present?</em></h2>
+  <p class="cta-sub">Join the cemeteries already running on Quivern. Your records are safe, searchable, and available to the families who need them — forever.</p>
+  <div class="cta-actions">
+    <a href="mailto:hello@quivern.com" class="btn-white">Schedule a Demo</a>
+    <a href="mailto:hello@quivern.com" class="btn-white-ghost">Talk to Saidev directly →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#" class="logo" style="color:white;">
+        <svg class="logo-leaf" viewBox="0 0 22 22" fill="none">
+          <ellipse cx="11" cy="11" rx="8" ry="10" transform="rotate(-20 11 11)" stroke="rgba(255,255,255,0.5)" stroke-width="1.2"/>
+          <line x1="11" y1="4" x2="11" y2="19" stroke="rgba(255,255,255,0.5)" stroke-width="0.8"/>
+          <line x1="11" y1="10" x2="15" y2="7" stroke="rgba(255,255,255,0.5)" stroke-width="0.6"/>
+          <line x1="11" y1="13" x2="8" y2="11" stroke="rgba(255,255,255,0.5)" stroke-width="0.6"/>
+        </svg>
+        Quivern
+      </a>
+      <p>Cemetery & Memorial Park Operations Platform. Preserving two centuries of records for the families who need them.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Platform</h5>
+      <ul>
+        <li><a href="#product">Plot Management</a></li>
+        <li><a href="#product">Deed Digitisation</a></li>
+        <li><a href="#product">Perpetual Care</a></li>
+        <li><a href="#genealogy">Genealogy</a></li>
+        <li><a href="#product">Compliance</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <ul>
+        <li><a href="#founder">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Careers</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Resources</h5>
+      <ul>
+        <li><a href="#">Documentation</a></li>
+        <li><a href="#">State Compliance Guide</a></li>
+        <li><a href="#">Genealogy API</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Quivern Inc. All rights reserved.</p>
+    <p>hello@quivern.com</p>
+  </div>
+</footer>
+
+</body>
+</html>
